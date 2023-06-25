@@ -30,6 +30,10 @@
 
         <property name="format_sql">true</property>
 
+        <!--   Mapping entity classes     -->
+        <mapping class="com.tpe.HotelMangementSystem.model.Hotel"/>
+        <mapping class="com.tpe.HotelMangementSystem.model.Room"/>
+
 
     </session-factory>
 

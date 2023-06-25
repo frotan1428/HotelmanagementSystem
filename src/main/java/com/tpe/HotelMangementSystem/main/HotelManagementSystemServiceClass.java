@@ -1,5 +1,10 @@
 package com.tpe.HotelMangementSystem.main;
 
+import com.tpe.HotelMangementSystem.repository.HotelRepository;
+import com.tpe.HotelMangementSystem.repository.HotelRepositoryImpl;
+import com.tpe.HotelMangementSystem.service.HotelService;
+import com.tpe.HotelMangementSystem.service.HotelServiceImpl;
+
 import java.util.Scanner;
 
 public class HotelManagementSystemServiceClass {
@@ -10,8 +15,15 @@ private static Scanner scanner ;
      //step 11: call displayMenuHotelManagementSystem()
     public static  void displayMenuHotelManagementSystem(){
 
+        //create an instance of hotelService and HotelRepository
+
+        HotelRepository hotelRepository= new HotelRepositoryImpl();
+
+        HotelService hotelService= new HotelServiceImpl(hotelRepository);
+
+
         //create  a scanner for user input
-       Scanner scanner= new Scanner(System.in);
+        scanner= new Scanner(System.in);
 
         //menu
         boolean exit = false;
@@ -28,7 +40,7 @@ private static Scanner scanner ;
             scanner.nextLine(); // to consume the newline character (\n):
             switch (choice){
                 case 1:
-                    displayHotelOperationsMenu();
+                    displayHotelOperationsMenu(hotelService);
                    break;
                 case 2:
                     displayRoomOperationsMenu();
@@ -53,7 +65,7 @@ private static Scanner scanner ;
     }
 
     //step13:
-    private static void displayHotelOperationsMenu() {
+    private static void displayHotelOperationsMenu(HotelService hotelService) {
         scanner = new Scanner(System.in);
 
         boolean exit = false;
@@ -68,12 +80,13 @@ private static Scanner scanner ;
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine(); // Consume the newline character// "/n"
 
             switch (choice) {
                 case 1:
                     //step 13e:saveHotel
                     System.out.println("==== Add a new hotel ====");
+                    hotelService.saveHotel();
                     break;
                 case 2:
                     // //step 14e:findHotelById
@@ -89,7 +102,7 @@ private static Scanner scanner ;
                     System.out.println("==== Find All Hotels ====");
                     break;
                 case 5:
-                    //step 17 e: updateHotelById
+                    //step 17e: updateHotelById
                     System.out.println("==== Update Hotel By ID ====");
 
                     break;
