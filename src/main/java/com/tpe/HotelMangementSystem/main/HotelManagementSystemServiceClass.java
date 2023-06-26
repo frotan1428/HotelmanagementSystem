@@ -2,8 +2,12 @@ package com.tpe.HotelMangementSystem.main;
 
 import com.tpe.HotelMangementSystem.repository.HotelRepository;
 import com.tpe.HotelMangementSystem.repository.HotelRepositoryImpl;
+import com.tpe.HotelMangementSystem.repository.RoomRepository;
+import com.tpe.HotelMangementSystem.repository.RoomRepositoryImpl;
 import com.tpe.HotelMangementSystem.service.HotelService;
 import com.tpe.HotelMangementSystem.service.HotelServiceImpl;
+import com.tpe.HotelMangementSystem.service.RoomService;
+import com.tpe.HotelMangementSystem.service.RoomServiceImpl;
 
 import java.util.Scanner;
 
@@ -20,6 +24,11 @@ private static Scanner scanner ;
         HotelRepository hotelRepository= new HotelRepositoryImpl();
 
         HotelService hotelService= new HotelServiceImpl(hotelRepository);
+
+        //create an instance of RoomRepository and RoomService
+
+        RoomRepository roomRepository= new RoomRepositoryImpl();
+        RoomService roomService = new RoomServiceImpl(roomRepository,hotelRepository);
 
 
         //create  a scanner for user input
@@ -43,7 +52,7 @@ private static Scanner scanner ;
                     displayHotelOperationsMenu(hotelService);
                    break;
                 case 2:
-                    displayRoomOperationsMenu();
+                    displayRoomOperationsMenu(roomService);
                     break;
                 case 3:
                     displayGuestOperationsMenu();
@@ -91,15 +100,22 @@ private static Scanner scanner ;
                 case 2:
                     // //step 14e:findHotelById
                     System.out.println("Enter the hotel ID: ");
+                    Long hotelId =  scanner.nextLong();
+                    hotelService.findHotelById(hotelId);
                     break;
                 case 3:
                     ////step 15e :deleteHotelById
                     System.out.print("Enter the hotel ID to delete: ");
+                    Long deleteHotelId  =scanner.nextLong();
+                    hotelService.deleteHotelById(deleteHotelId);
+
+
 
                     break;
                 case 4:
                     //step 16e: findAllHotels
                     System.out.println("==== Find All Hotels ====");
+                    hotelService.findAllHotels();
                     break;
                 case 5:
                     //step 17e: updateHotelById
@@ -117,7 +133,7 @@ private static Scanner scanner ;
     }
     //step 18[a-b-c-d-e]: Room Crud operation
     //!!! open RoomRepository
-    private static void displayRoomOperationsMenu() {
+    private static void displayRoomOperationsMenu(RoomService roomService) {
         scanner = new Scanner(System.in);
         boolean exit = false;
         while (!exit) {
@@ -136,6 +152,7 @@ private static Scanner scanner ;
                 case 1:
                     //step 18e: saveRoom
                     System.out.println("==== Add New Room ====");
+                    roomService.saveRoom();
                     break;
                 case 2:
                     //step 19e : findRoomById
