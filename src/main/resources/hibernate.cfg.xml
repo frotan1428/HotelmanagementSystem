@@ -33,6 +33,8 @@
         <!--   Mapping entity classes     -->
         <mapping class="com.tpe.HotelMangementSystem.model.Hotel"/>
         <mapping class="com.tpe.HotelMangementSystem.model.Room"/>
+        <mapping class="com.tpe.HotelMangementSystem.model.Guest"/>
+        <mapping class="com.tpe.HotelMangementSystem.model.Address"/>
 
 
     </session-factory>

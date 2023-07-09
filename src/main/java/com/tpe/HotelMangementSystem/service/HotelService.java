@@ -1,5 +1,6 @@
 package com.tpe.HotelMangementSystem.service;
 
+import com.tpe.HotelMangementSystem.exception.HotelResourceNotFoundException;
 import com.tpe.HotelMangementSystem.model.Hotel;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public interface HotelService {
     //step16c: findAllHotels
 
     List<Hotel> findAllHotels();
+
+    //17c :updateHotelByID
+    void updateHotelByID(Long id,Hotel updateHotel) throws HotelResourceNotFoundException;
+
+
 
 
     //

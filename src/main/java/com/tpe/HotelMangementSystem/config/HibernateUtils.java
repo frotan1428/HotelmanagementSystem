@@ -23,6 +23,7 @@ public class HibernateUtils {
             System.err.println("Initial SessionFactory creation is failed ...."+ex);
             throw  new ExceptionInInitializerError(ex);
         }
+
     }
 
 
@@ -30,6 +31,8 @@ public class HibernateUtils {
     public static SessionFactory getSessionFactory(){
         return sessionFactory;
     }
+
+
 
     public static void shutDown(){
         getSessionFactory().close();

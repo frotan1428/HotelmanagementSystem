@@ -22,4 +22,8 @@ public interface HotelRepository {
     //16a: find All Hotels
     List<Hotel> findAllHotels();
 
+    //step 17a :update hotel
+
+    void updateHotel(Hotel existingHotel);
+
 }

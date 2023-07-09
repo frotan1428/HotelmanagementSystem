@@ -1,13 +1,9 @@
 package com.tpe.HotelMangementSystem.main;
 
-import com.tpe.HotelMangementSystem.repository.HotelRepository;
-import com.tpe.HotelMangementSystem.repository.HotelRepositoryImpl;
-import com.tpe.HotelMangementSystem.repository.RoomRepository;
-import com.tpe.HotelMangementSystem.repository.RoomRepositoryImpl;
-import com.tpe.HotelMangementSystem.service.HotelService;
-import com.tpe.HotelMangementSystem.service.HotelServiceImpl;
-import com.tpe.HotelMangementSystem.service.RoomService;
-import com.tpe.HotelMangementSystem.service.RoomServiceImpl;
+import com.tpe.HotelMangementSystem.exception.HotelResourceNotFoundException;
+import com.tpe.HotelMangementSystem.model.Hotel;
+import com.tpe.HotelMangementSystem.repository.*;
+import com.tpe.HotelMangementSystem.service.*;
 
 import java.util.Scanner;
 
@@ -29,6 +25,12 @@ private static Scanner scanner ;
 
         RoomRepository roomRepository= new RoomRepositoryImpl();
         RoomService roomService = new RoomServiceImpl(roomRepository,hotelRepository);
+
+         //create an instance of Guest Repository  anf GuestService
+
+        GuestRepository guestRepository= new GuestRepositoryImpl();
+        GuestService guestService= new GuestServiceImpl(guestRepository);
+
 
 
         //create  a scanner for user input
@@ -55,7 +57,7 @@ private static Scanner scanner ;
                     displayRoomOperationsMenu(roomService);
                     break;
                 case 3:
-                    displayGuestOperationsMenu();
+                    displayGuestOperationsMenu(guestService);
                     break;
                 case 4:
                     displayReservationOperationsMenu();
@@ -121,6 +123,27 @@ private static Scanner scanner ;
                     //step 17e: updateHotelById
                     System.out.println("==== Update Hotel By ID ====");
 
+                    System.out.println("Enter the Hotel Id to Update :");
+                    Long hotelId1= scanner.nextLong();
+                    scanner.nextLine();//consume the new line character
+
+                    System.out.println("Enter the Update Hotel Name");
+
+                    String name= scanner.nextLine();
+                    System.out.println("Enter the Update Hotel Location :");
+                    String location= scanner.nextLine();
+
+                    try {
+                        Hotel updateHotel = new Hotel();
+
+                        updateHotel.setId(hotelId1);
+                        updateHotel.setName(name);
+                        updateHotel.setLocation(location);
+                        hotelService.updateHotelByID(hotelId1,updateHotel);
+                    }catch (HotelResourceNotFoundException e){
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
                 case 6:
                     exit = true;
@@ -179,7 +202,7 @@ private static Scanner scanner ;
     //step 22[a-b-c-d-e]: Guest Operation
     //!!! open Guest Entity -reservation
 
-    private static void displayGuestOperationsMenu( ) {
+    private static void displayGuestOperationsMenu(GuestService guestService ) {
         scanner = new Scanner(System.in);
         boolean exit = false;
         while (!exit) {
@@ -191,12 +214,14 @@ private static Scanner scanner ;
             System.out.println("5. Return to Main Menu");
             System.out.print("Enter your choice: ");
 
+
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
                 case 1:
                     System.out.println("==== Add New Guest ====");
+                    guestService.saveGuest();
 
                     break;
                 case 2:
