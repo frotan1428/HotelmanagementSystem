@@ -40,4 +40,14 @@ public class GuestRepositoryImpl implements GuestRepository{
         }
 
     }
+
+
+    //23 b findGuestById
+    @Override
+    public Guest findGuestById(Long guestId) {
+
+        Session session=HibernateUtils.getSessionFactory().openSession();
+        return session.get(Guest.class,guestId);
+
+    }
 }

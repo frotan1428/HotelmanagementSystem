@@ -21,6 +21,8 @@ public class Room {
     @JoinColumn(name = "hotel_id",nullable = false)
     private Hotel hotel;
 
+
+
     //constructor -getter -setter and to string method
 
 

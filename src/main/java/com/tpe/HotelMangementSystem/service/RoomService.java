@@ -8,4 +8,8 @@ public interface RoomService {
     //step 18c: save room
 
     Room saveRoom();
+
+    //step19c :
+
+    Room findRoomById(Long id);
 }

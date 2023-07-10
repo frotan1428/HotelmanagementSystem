@@ -2,6 +2,7 @@ package com.tpe.HotelMangementSystem.main;
 
 import com.tpe.HotelMangementSystem.exception.HotelResourceNotFoundException;
 import com.tpe.HotelMangementSystem.model.Hotel;
+import com.tpe.HotelMangementSystem.model.Reservation;
 import com.tpe.HotelMangementSystem.repository.*;
 import com.tpe.HotelMangementSystem.service.*;
 
@@ -30,6 +31,14 @@ private static Scanner scanner ;
 
         GuestRepository guestRepository= new GuestRepositoryImpl();
         GuestService guestService= new GuestServiceImpl(guestRepository);
+
+        //create an instance of Reservation Repository
+
+        ReservationRepository reservationRepository= new ReservationRepositoryImpl();
+        ReservationService reservationService = new ReservationServiceImpl(reservationRepository,guestRepository,roomRepository);
+
+
+
 
 
 
@@ -60,7 +69,7 @@ private static Scanner scanner ;
                     displayGuestOperationsMenu(guestService);
                     break;
                 case 4:
-                    displayReservationOperationsMenu();
+                    displayReservationOperationsMenu(reservationService);
                     break;
                 case 5:
                     exit=true;
@@ -180,6 +189,8 @@ private static Scanner scanner ;
                 case 2:
                     //step 19e : findRoomById
                     System.out.print("Enter the Room ID to Find: ");
+                    Long roomId=scanner.nextLong();
+                    roomService.findRoomById(roomId);
                     break;
                 case 3:
                     //step 20e: findAllRoom
@@ -226,6 +237,8 @@ private static Scanner scanner ;
                     break;
                 case 2:
                     System.out.print("Enter the Guest ID to Find: ");
+                    Long guestId=scanner.nextLong();
+                    guestService.findGuestById(guestId);
                     break;
                 case 3:
                     System.out.println("==== Delete Guest By ID ====");
@@ -244,7 +257,7 @@ private static Scanner scanner ;
         }
     }
 
-    private static void displayReservationOperationsMenu() {
+    private static void displayReservationOperationsMenu(ReservationService reservationService) {
         scanner = new Scanner(System.in);
 
         boolean exit = false;
@@ -263,6 +276,7 @@ private static Scanner scanner ;
             switch (choice) {
                 case 1:
                     System.out.println("==== Add a new reservation ====");
+                    reservationService.saveReservation();
                     break;
                 case 2:
                     System.out.print("Enter the reservation ID: ");

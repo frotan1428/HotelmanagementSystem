@@ -2,6 +2,7 @@ package com.tpe.HotelMangementSystem.service;
 
 
 import com.tpe.HotelMangementSystem.exception.HotelResourceNotFoundException;
+import com.tpe.HotelMangementSystem.exception.RoomResourceNotFoundException;
 import com.tpe.HotelMangementSystem.model.Hotel;
 import com.tpe.HotelMangementSystem.model.Room;
 import com.tpe.HotelMangementSystem.repository.HotelRepository;
@@ -69,5 +70,29 @@ public class RoomServiceImpl implements RoomService{
             System.out.println(e.getMessage());
         }
         return room;
+    }
+
+
+    //step 19d :
+    @Override
+    public Room findRoomById(Long id) {
+
+        try {
+           Room foundRoom = roomRepository.findRoomById(id);
+
+           if (foundRoom!=null){
+               System.out.println("--------------------");
+               System.out.println(foundRoom);
+               return foundRoom;
+           }else {
+
+               throw new RoomResourceNotFoundException("Room not found with id " +id);
+             //  System.out.println("Room not found with id " +id);
+           }
+
+        }catch (RoomResourceNotFoundException re){
+            System.out.println(re.getMessage());
+        }
+        return null;
     }
 }

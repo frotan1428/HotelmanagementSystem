@@ -7,4 +7,9 @@ public interface RoomRepository {
     //step 18 a  saveRoom
 
     Room saveRoom(Room ro);
+
+
+    //step 19a: findRoomById
+    Room findRoomById(Long roomId);
+
 }

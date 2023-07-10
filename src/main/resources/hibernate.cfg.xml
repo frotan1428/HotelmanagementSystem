@@ -35,6 +35,7 @@
         <mapping class="com.tpe.HotelMangementSystem.model.Room"/>
         <mapping class="com.tpe.HotelMangementSystem.model.Guest"/>
         <mapping class="com.tpe.HotelMangementSystem.model.Address"/>
+        <mapping class="com.tpe.HotelMangementSystem.model.Reservation"/>
 
 
     </session-factory>

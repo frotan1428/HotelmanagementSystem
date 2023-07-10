@@ -3,6 +3,8 @@ package com.tpe.HotelMangementSystem.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_Guests")
@@ -23,10 +25,16 @@ public class Guest {
 
     private LocalDateTime createdDate;// we want see persist /save date
 
+
     @PrePersist
     public void PrePersist(){
         createdDate =LocalDateTime.now();
     }
+
+
+    @OneToMany(mappedBy = "guest",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<Reservation> reservations= new ArrayList<>();
+
 
 
     //getter and setter
@@ -61,6 +69,18 @@ public class Guest {
         this.createdDate = createdDate;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
     @Override
     public String toString() {
         return "Guest{" +
@@ -68,8 +88,7 @@ public class Guest {
                 ", name='" + name + '\'' +
                 ", address=" + address +
                 ", createdDate=" + createdDate +
+//                ", reservations=" + reservations +
                 '}';
     }
-
-
 }

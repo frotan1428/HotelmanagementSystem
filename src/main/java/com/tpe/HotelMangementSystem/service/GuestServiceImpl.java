@@ -1,8 +1,10 @@
 package com.tpe.HotelMangementSystem.service;
 
+import com.tpe.HotelMangementSystem.exception.GuestResourceNotFoundException;
 import com.tpe.HotelMangementSystem.model.Address;
 import com.tpe.HotelMangementSystem.model.Guest;
 import com.tpe.HotelMangementSystem.repository.GuestRepository;
+import org.hibernate.annotations.common.util.impl.Log;
 
 import java.util.Scanner;
 
@@ -58,5 +60,23 @@ public class GuestServiceImpl implements GuestService{
        return guest;
 
 
+    }
+
+    //23d : findGuestById
+    @Override
+    public void findGuestById(Long id) {
+
+        try {
+         Guest foundGuest  =  guestRepository.findGuestById(id);
+         if (foundGuest!=null){
+             System.out.println("------------------------------");
+             System.out.println(foundGuest);
+         }else {
+             throw  new GuestResourceNotFoundException("Guest not found with Id : "+id);
+         }
+        }catch (GuestResourceNotFoundException e){
+            System.out.println(e.getMessage());
+
+        }
     }
 }
