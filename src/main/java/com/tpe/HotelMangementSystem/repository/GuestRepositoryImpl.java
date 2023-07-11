@@ -1,10 +1,15 @@
 package com.tpe.HotelMangementSystem.repository;
 
 import com.tpe.HotelMangementSystem.config.HibernateUtils;
+import com.tpe.HotelMangementSystem.exception.GuestResourceNotFoundException;
 import com.tpe.HotelMangementSystem.model.Address;
 import com.tpe.HotelMangementSystem.model.Guest;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class GuestRepositoryImpl implements GuestRepository{
 
@@ -43,11 +48,30 @@ public class GuestRepositoryImpl implements GuestRepository{
 
 
     //23 b findGuestById
+//    @Override
+//    public Guest findGuestById(Long guestId) {
+//
+//        Session session=HibernateUtils.getSessionFactory().openSession();
+//        return session.get(Guest.class,guestId);
+//    }
+
     @Override
     public Guest findGuestById(Long guestId) {
 
-        Session session=HibernateUtils.getSessionFactory().openSession();
-        return session.get(Guest.class,guestId);
+        try (Session session =HibernateUtils.getSessionFactory().openSession()){
 
+            CriteriaBuilder cb =session.getCriteriaBuilder();
+            CriteriaQuery<Guest> criteriaQuery =cb.createQuery(Guest.class);
+            Root<Guest> root =criteriaQuery.from(Guest.class);
+            criteriaQuery.select(root).where(cb.equal(root.get("id"),guestId)); //WHERE id =guestId;
+
+            return session.createQuery(criteriaQuery).uniqueResult();
+        }catch (GuestResourceNotFoundException e){
+            e.printStackTrace();
+            return null;
+
+        }
     }
+
+
 }
